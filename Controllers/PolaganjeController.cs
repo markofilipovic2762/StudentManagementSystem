@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using StudentMS.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,21 +10,29 @@ namespace StudentMS.Controllers
 {
     public class PolaganjeController : Controller
     {
-        // GET: PolaganjeController
+        private readonly IPolaganjeRepository _polaganja;
+        public PolaganjeController(IPolaganjeRepository polaganja)
+        {
+            _polaganja = polaganja;
+        }
+        // GET: Sva polaganja
         public ActionResult Index()
         {
-            return View();
+            var SvaPolaganja = _polaganja.SvaPolaganja();
+            return View(SvaPolaganja);
         }
 
-        // GET: PolaganjeController/Details/5
+        // GET: Polaganje/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var polaganje = _polaganja.GetPolaganje(id);
+            return View(polaganje);
         }
 
-        // GET: PolaganjeController/Create
+        // GET: Polaganje/Create
         public ActionResult Create()
         {
+
             return View();
         }
 

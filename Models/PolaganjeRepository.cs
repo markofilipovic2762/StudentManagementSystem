@@ -16,7 +16,10 @@ namespace StudentMS.Models
         }
         public Polaganje GetPolaganje(int id)
         {
-            return _db.Polaganja.Find(id);
+            var polaganje = _db.Polaganja.Include(p => p.User)
+                .Include(r => r.Ispit)
+                .Include(s => s.Ispit.Predmet).Where(t=> t.Id == id);
+            return (Polaganje)polaganje;
         }
 
         public void IzmeniPolaganje(int id)
@@ -63,6 +66,8 @@ namespace StudentMS.Models
         {
             var brojPolozenihIspita = _db.Polaganja
                 .Include(s => s.User)
+                .Include(p=> p.Ispit)
+                .Include(r=> r.Ispit.Predmet)
                 .Where(s => s.UserId == id && s.Ocena > 5).Count();
             return brojPolozenihIspita;
         }
