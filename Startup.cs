@@ -34,7 +34,7 @@ namespace StudentMS
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
             services.AddScoped<IPredmetRepository, PredmetRepository>();
             services.AddScoped<IIspitRepository, IspitRepository>();
