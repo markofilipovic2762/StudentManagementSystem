@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,11 +32,12 @@ namespace StudentMS.Controllers
         // GET: Accounts
         public async Task<IActionResult> Index()
         {
-            return View(await _db.Users.ToListAsync());
+            var korisnici = await _db.Users.ToListAsync();
+            return View(korisnici);
         }
 
         // GET: Account/Details/5
-        public async Task<IActionResult> GetUser(string id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -176,27 +178,33 @@ namespace StudentMS.Controllers
         //POST: Account/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, ApplicationUser user)
+        public async Task<IActionResult> EditUser(string id)
         {
-            if (id != user.Id)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            var user = (ApplicationUser) _db.Users.FirstOrDefault(t => t.Id == id);
+
+            if (await TryUpdateModelAsync<ApplicationUser>(
+                user,
+                "",
+                s=>s.Ime, s=>s.Prezime,s=> s.Email
+                ))
             {
                 try
                 {
-                    _db.Update(user);
                     await _db.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     throw;
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
             return View(user);
         }

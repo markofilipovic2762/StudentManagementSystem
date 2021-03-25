@@ -36,6 +36,7 @@ namespace StudentMS
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
+            services.AddHttpContextAccessor();
             services.AddScoped<IPredmetRepository, PredmetRepository>();
             services.AddScoped<IIspitRepository, IspitRepository>();
             services.AddScoped<IPolaganjeRepository, PolaganjeRepository>();

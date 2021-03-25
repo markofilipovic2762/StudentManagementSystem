@@ -9,7 +9,7 @@ namespace StudentMS.Models
     {
         IEnumerable<Ispit> SviIspiti();
         Ispit GetIspit(int id);
-        void IzmeniIspit(int id);
+        void IzmeniIspit(int id, Ispit ispit);
         void SacuvajIspit(Ispit ispit);
 
         void IzbrisiIspit(int id);

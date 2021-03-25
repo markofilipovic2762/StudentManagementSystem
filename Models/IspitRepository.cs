@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using StudentMS.Data;
 using System;
 using System.Collections.Generic;
@@ -30,12 +31,11 @@ namespace StudentMS.Models
             }
         }
 
-        public void IzmeniIspit(int id)
+        public void IzmeniIspit(int id,[Bind("DatumIspita,PredmetId")] Ispit ispit)
         {
-            var ispit = _db.Ispiti.SingleOrDefault(i => i.Id == id);
-            if(ispit != null)
+            if(id == ispit.Id)
             {
-                _db.Ispiti.Update(ispit);
+                _db.Update(ispit);
                 _db.SaveChanges();
             }
         }

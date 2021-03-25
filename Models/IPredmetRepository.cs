@@ -9,7 +9,7 @@ namespace StudentMS.Models
     {
         IEnumerable<Predmet> SviPredmeti();
         Predmet GetPredmet(int id);
-        void IzmeniPredmet(int id);
+        void IzmeniPredmet(int id, Predmet predmet);
         void SacuvajPredmet(Predmet predmet);
         void IzbrisiPredmet(int id);
     }

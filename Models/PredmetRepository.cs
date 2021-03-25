@@ -3,6 +3,7 @@ using StudentMS.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace StudentMS.Models
@@ -27,11 +28,14 @@ namespace StudentMS.Models
             _db.SaveChanges();
         }
 
-        public void IzmeniPredmet(int id)
+        public void IzmeniPredmet(int id,[Bind("id, Naziv, ESPB, UserId")] Predmet predmet )
         {
-            var predmet = _db.Predmeti.Find(id);
-            _db.Predmeti.Update(predmet);
-            _db.SaveChanges();
+            if (id == predmet.id)
+            {
+                _db.Update(predmet);
+                _db.SaveChanges();
+            }
+            
         }
 
         public void SacuvajPredmet(Predmet predmet)

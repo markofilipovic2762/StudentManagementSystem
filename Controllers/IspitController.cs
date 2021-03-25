@@ -69,14 +69,13 @@ namespace StudentMS.Controllers
         // POST: IspitController/Edit/5
         [HttpPost,ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public ActionResult EditIspit(int id)
+        public ActionResult EditIspit(int id, Ispit ispit)
         {
-            var ispit = _ispiti.GetIspit(id);
             var predmeti = _predmeti.SviPredmeti();
             ViewBag.PredmetId = new SelectList(predmeti, "id", "Naziv", ispit.PredmetId);
             try
             {
-                _ispiti.SacuvajIspit(ispit);
+                _ispiti.IzmeniIspit(id, ispit);
                 return RedirectToAction(nameof(Index));
             }
             catch

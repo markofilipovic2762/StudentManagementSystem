@@ -70,19 +70,19 @@ namespace StudentMS.Controllers
         // POST: PredmetController/Edit/5
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task <ActionResult> EditPredmet(int id)
+        public async Task <ActionResult> EditPredmet(int id, Predmet predmet)
         {
-            var predmet = _predmeti.GetPredmet(id);
+            //var predmet = _predmeti.GetPredmet(id);
             var profesors = await _userManager.GetUsersInRoleAsync("Profesor");
             ViewBag.UserId = new SelectList(profesors, "Id", "Email", predmet.UserId);
             try
             {
-                _predmeti.IzmeniPredmet(id);
+                _predmeti.IzmeniPredmet(id, predmet);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(predmet);
             }
         }
 
