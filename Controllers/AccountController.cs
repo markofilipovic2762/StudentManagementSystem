@@ -105,7 +105,7 @@ namespace StudentMS.Controllers
                 var user = _db.Users.Where(u => u.Email.Equals(model.Email)).Single();
                 var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, false);
 
-                var role = await _userManager.GetRolesAsync((ApplicationUser)user);
+                var role = await _userManager.GetRolesAsync(user);
 
                 if (result.Succeeded)
                 {

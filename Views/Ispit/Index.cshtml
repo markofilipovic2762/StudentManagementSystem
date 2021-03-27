@@ -9,7 +9,7 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table" id="myTable">
     <thead>
         <tr>
             <th>
@@ -22,20 +22,53 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DatumIspita)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Predmet.Naziv)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DatumIspita)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Predmet.Naziv)
+                </td>
+                @if (User.IsInRole("Student"))
+                {
+                    <td>
+                        <a class="btn btn-primary" data-ispit-id="@item.Id" id="prijavi">Prijavi ispit</a>
+                    </td>
+                }
+                @if (User.IsInRole("Administrator"))
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                }
+
+            </tr>
+        }
     </tbody>
 </table>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $("#prijavi").click(function () {
+            var btn = $("#prijavi");
+                $.ajax({
+                    type: "POST",
+                    url: "/Polaganje/PrijaviIspit/"+btn.attr("data-ispit-id"),
+                    success: function (response) {
+                        $.notify("Uspesno ste prijavili ispit");
+                        btn.addClass("disabled");
+                        window.location = "/Polaganje";
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                   }
+                });
+            });
+    </script>
+
