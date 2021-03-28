@@ -76,17 +76,19 @@ namespace StudentMS.Models
             return (IEnumerable<Ispit>)ispiti;
         }
 
-        public int PolozeniIspitiStudenta(string id)
+        public IEnumerable<Polaganje> PolozeniIspitiStudenta(string id)
         {
-            var brojPolozenihIspita = _db.Polaganja
+            var polozeniIspitiStudenta = _db.Polaganja
                 .Include(s => s.User)
                 .Include(p=> p.Ispit)
                 .Include(r=> r.Ispit.Predmet)
-                .Where(s => s.UserId == id && s.Ocena > 5).Count();
-            return brojPolozenihIspita;
+                .Where(s => s.UserId == id && s.Ocena > 5)
+                .ToList();
+
+            return polozeniIspitiStudenta;
         }
 
-        public IEnumerable<Ispit> PolozeniIspitiKodProfesora(string id)
+        public IEnumerable<Polaganje> PolozeniIspitiKodProfesora(string id)
         {
            
                var ispiti = _db.Polaganja
@@ -96,7 +98,7 @@ namespace StudentMS.Models
                 .Where(p => p.Ocena > 5 && p.Ispit.Predmet.UserId == id)
                 .ToList();
 
-                return (IEnumerable<Ispit>)ispiti;
+                return ispiti;
            
                 
             

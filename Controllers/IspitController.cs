@@ -42,7 +42,7 @@ namespace StudentMS.Controllers
         // POST: IspitController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind("DatumIspita, PredmetId")] Ispit ispit)
+        public ActionResult Create([Bind("Id, DatumIspita, PredmetId")] Ispit ispit)
         {
             var predmeti = _predmeti.SviPredmeti();
             ViewBag.PredmetId = new SelectList(predmeti, "id", "Naziv", ispit.PredmetId);

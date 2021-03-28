@@ -38,6 +38,12 @@
                     @Html.DisplayFor(modelItem => user.Prezime)
                 </td>
                 <td>
+                    @foreach(var rola in await UserManager.GetRolesAsync(user))
+                    {
+                        @rola
+                    }
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => user.Email)
                 </td>
                 @if (User.Identity.IsAuthenticated && User.IsInRole("Administrator"))

@@ -19,14 +19,15 @@ namespace StudentMS.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationDbContext _db;
+        private readonly IPolaganjeRepository _polaganja;
 
 
-
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ApplicationDbContext db)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ApplicationDbContext db, IPolaganjeRepository polaganja)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _db = db;
+            _polaganja = polaganja;
         }
 
         // GET: Accounts
@@ -45,6 +46,17 @@ namespace StudentMS.Controllers
             }
 
             var user = await _db.Users.FirstOrDefaultAsync(m => m.Id == id);
+            if (await _userManager.IsInRoleAsync(user, "Student"))
+            {
+                ViewBag.PolozeniIspiti = _polaganja.PolozeniIspitiStudenta(id);
+            }
+
+            if (await _userManager.IsInRoleAsync(user, "Profesor"))
+            {
+                ViewBag.PolozeniIspitiProf = _polaganja.PolozeniIspitiKodProfesora(id);
+            }
+
+
             if (user == null)
             {
                 return NotFound();
@@ -204,7 +216,6 @@ namespace StudentMS.Controllers
                 {
                     throw;
                 }
-                return RedirectToAction("Index");
             }
             return View(user);
         }

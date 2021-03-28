@@ -6,7 +6,7 @@
 
 <h1>Polaganja studenata</h1>
 
-<table class="table" id="myTable">
+<table class="table table-striped" id="myTable">
     <thead>
         <tr>
             <th>
@@ -22,7 +22,13 @@
                 @Html.DisplayNameFor(model => model.Polozen)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User)
+                @Html.DisplayNameFor(model => model.User.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User.Ime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User.Prezime)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Ispit)
@@ -59,6 +65,12 @@
                 @Html.DisplayFor(modelItem => item.User.UserName)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.User.Ime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Prezime)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Ispit.Naziv)
             </td>
             @if (User.IsInRole("Administrator"))
@@ -69,7 +81,7 @@
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             }
-            
+
         </tr>
 }
     </tbody>

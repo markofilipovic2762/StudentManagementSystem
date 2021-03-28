@@ -4,8 +4,6 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
-
 <div>
     <h4>User Details</h4>
     <hr />
@@ -30,7 +28,114 @@
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+@if (User.IsInRole("Student"))
+{
+    <h2>Polozeni ispiti</h2>
+    <table class="table" id="myTable">
+        <thead>
+            <tr>
+                <th>
+                    Ocena
+                </th>
+                <th>
+                    Osvojeno Bodova
+                </th>
+                <th>
+                    Redni broj Polaganja
+                </th>
+                <th>
+                    Polozen
+                </th>
+                <th>
+                    Ispit
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in @ViewBag.PolozeniIspiti as IList<Polaganje>)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ocena)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OsvojenoBodova)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RedniBrojPolaganja)
+                    </td>
+                    <td>
+                        @if (item.Ocena>5)
+                        {
+                            <span>DA</span>
+                        }
+                        else
+                        {
+                            <span>NE</span>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ispit.Naziv)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if (User.IsInRole("Profesor"))
+{
+
+    <table class="table" id="myTable">
+        <thead>
+            <tr>
+                <th>
+                    Ocena
+                </th>
+                <th>
+                    Osvojeno Bodova
+                </th>
+                <th>
+                    Redni broj Polaganja
+                </th>
+                <th>
+                    Polozen
+                </th>
+                <th>
+                    Ispit
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in @ViewBag.PolozeniIspitiProf as IList<Polaganje>)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ocena)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OsvojenoBodova)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RedniBrojPolaganja)
+                    </td>
+                    <td>
+                        @if (item.Ocena > 5)
+                        {
+                            <span>DA</span>
+                        }
+                        else
+                        {
+                            <span>NE</span>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ispit.Naziv)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}

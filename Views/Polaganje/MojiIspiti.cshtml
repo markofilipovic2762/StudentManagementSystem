@@ -23,7 +23,10 @@
                 @Html.DisplayNameFor(model => model.Polozen)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User)
+                @Html.DisplayNameFor(model => model.User.Ime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User.Prezime)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Ispit)
@@ -44,15 +47,25 @@
                 @Html.DisplayFor(modelItem => item.RedniBrojPolaganja)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Polozen)
+                @if (item.Ocena > 5)
+                {
+                    <span>DA</span>
+                }
+                else
+                {
+                    <span>NE</span>
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.User.Ime)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.User.Prezime)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Ispit.Naziv)
             </td>
-            
+
         </tr>
 }
     </tbody>
