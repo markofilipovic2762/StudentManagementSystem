@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ApplicationUser>
+
+<h1>Profesori</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Prezime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                Predmeti
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => user.Ime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.Prezime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.Email)
+                </td>
+                <td>
+                    @{
+                        var predmeti = ViewBag.predmeti as List<Predmet>;
+                        var x = predmeti.FindAll(t => t.UserId == user.Id);
+                        foreach (var s in x)
+                        {
+                            <p>@s.Naziv</p>;
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

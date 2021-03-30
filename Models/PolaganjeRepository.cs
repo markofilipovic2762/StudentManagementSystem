@@ -22,14 +22,14 @@ namespace StudentMS.Models
         {
             var polaganje = _db.Polaganja.Include(p => p.User)
                 .Include(r => r.Ispit)
-                .Include(s => s.Ispit.Predmet).Where(t=> t.Id == id).SingleOrDefault();
+                .Include(s => s.Ispit.Predmet).Where(t => t.Id == id).SingleOrDefault();
             return polaganje;
         }
 
         public void IzmeniPolaganje(int id, Polaganje polaganje)
         {
 
-            if(id == polaganje.Id)
+            if (id == polaganje.Id)
             {
                 _db.Update(polaganje);
                 _db.SaveChanges();
@@ -38,7 +38,7 @@ namespace StudentMS.Models
             {
                 throw new Exception("Not compatible");
             }
-            
+
         }
 
         public void SacuvajPolaganje(Polaganje polaganje)
@@ -59,13 +59,13 @@ namespace StudentMS.Models
 
         public IEnumerable<Polaganje> SvaPolaganja()
         {
-            var svaPolaganja = _db.Polaganja.Include(t=> t.User)
+            var svaPolaganja = _db.Polaganja.Include(t => t.User)
                 .Include(p => p.Ispit)
                 .Include(c => c.Ispit.Predmet).ToList();
             return svaPolaganja;
         }
 
-        public IEnumerable<Ispit> IspitiStudenta(string id)
+        public IEnumerable<Polaganje> IspitiStudenta(string id)
         {
             var ispiti = _db.Polaganja
                 .Include(s => s.User)
@@ -73,35 +73,47 @@ namespace StudentMS.Models
                 .Include(c => c.Ispit.Predmet)
                 .Where(p => p.UserId == id).ToList();
 
-            return (IEnumerable<Ispit>)ispiti;
+            return ispiti;
         }
 
         public IEnumerable<Polaganje> PolozeniIspitiStudenta(string id)
         {
             var polozeniIspitiStudenta = _db.Polaganja
                 .Include(s => s.User)
-                .Include(p=> p.Ispit)
-                .Include(r=> r.Ispit.Predmet)
+                .Include(p => p.Ispit)
+                .Include(r => r.Ispit.Predmet)
                 .Where(s => s.UserId == id && s.Ocena > 5)
                 .ToList();
 
             return polozeniIspitiStudenta;
         }
 
-        public IEnumerable<Polaganje> PolozeniIspitiKodProfesora(string id)
+        public IEnumerable<Polaganje> MojiPolozeniIspiti()
         {
-           
-               var ispiti = _db.Polaganja
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var mojiPolozeniIspiti = _db.Polaganja
                 .Include(s => s.User)
                 .Include(p => p.Ispit)
-                .Include(c => c.Ispit.Predmet)
-                .Where(p => p.Ocena > 5 && p.Ispit.Predmet.UserId == id)
+                .Include(r => r.Ispit.Predmet)
+                .Where(s => s.UserId == userId && s.Ocena > 5)
                 .ToList();
 
-                return ispiti;
-           
-                
-            
+            return mojiPolozeniIspiti;
+        }
+        public IEnumerable<Polaganje> PolozeniIspitiKodProfesora(string id)
+        {
+
+            var ispiti = _db.Polaganja
+             .Include(s => s.User)
+             .Include(p => p.Ispit)
+             .Include(c => c.Ispit.Predmet)
+             .Where(p => p.Ocena > 5 && p.Ispit.Predmet.UserId == id)
+             .ToList();
+
+            return ispiti;
+
+
+
 
             //var profesor = _context.Users.SingleOrDefault(p => p.Id == idProfesora).Email;
 
@@ -126,7 +138,7 @@ namespace StudentMS.Models
 
         public IEnumerable<Polaganje> MojaPolaganja()
         {
-           var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var mojiIspiti = _db.Polaganja.Include(t => t.Ispit).Include(s => s.User)
                         .Include(c => c.Ispit.Predmet)
                         .Where(p => p.UserId == userId).ToList();

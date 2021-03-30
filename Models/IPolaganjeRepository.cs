@@ -11,9 +11,9 @@ namespace StudentMS.Models
         IEnumerable<Polaganje> SvaPolaganja();
         Polaganje GetPolaganje(int id);
         void IzmeniPolaganje(int id, Polaganje polaganje);
-        IEnumerable<Ispit> IspitiStudenta(string id);
+        IEnumerable<Polaganje> IspitiStudenta(string id);
         IEnumerable<Polaganje> PolozeniIspitiStudenta(string id);
-
+        IEnumerable<Polaganje> MojiPolozeniIspiti();
         IEnumerable<Polaganje> MojaPolaganja();
 
         IEnumerable<Polaganje> PolaganjaKodProfesora();

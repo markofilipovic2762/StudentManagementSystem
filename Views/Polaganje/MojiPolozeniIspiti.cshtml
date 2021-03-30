@@ -1,0 +1,52 @@
+﻿@model IEnumerable<StudentMS.Models.Polaganje>
+
+@{
+    ViewData["Title"] = "MojiPolozeniIspiti";
+}
+
+<h1>Moji Polozeni Ispiti</h1>
+
+<table class="table" id="myTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ocena)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OsvojenoBodova)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RedniBrojPolaganja)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ispit.DatumIspita)
+            </th>
+            <th>
+                Predmet
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ocena)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OsvojenoBodova)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RedniBrojPolaganja)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ispit.DatumIspita)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ispit.Predmet.Naziv)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

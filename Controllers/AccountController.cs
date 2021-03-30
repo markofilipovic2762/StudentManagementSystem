@@ -20,14 +20,16 @@ namespace StudentMS.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationDbContext _db;
         private readonly IPolaganjeRepository _polaganja;
+        private readonly IPredmetRepository _predmeti;
 
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ApplicationDbContext db, IPolaganjeRepository polaganja)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ApplicationDbContext db, IPolaganjeRepository polaganja, IPredmetRepository predmeti)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _db = db;
             _polaganja = polaganja;
+            _predmeti = predmeti;
         }
 
         // GET: Accounts
@@ -199,12 +201,12 @@ namespace StudentMS.Controllers
                 return NotFound();
             }
 
-            var user = (ApplicationUser) _db.Users.FirstOrDefault(t => t.Id == id);
+            var user = (ApplicationUser)_db.Users.FirstOrDefault(t => t.Id == id);
 
             if (await TryUpdateModelAsync<ApplicationUser>(
                 user,
                 "",
-                s=>s.Ime, s=>s.Prezime,s=> s.Email
+                s => s.Ime, s => s.Prezime, s => s.Email
                 ))
             {
                 try
@@ -251,6 +253,19 @@ namespace StudentMS.Controllers
             _db.Users.Remove(user);
             await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<ActionResult> Studenti()
+        {
+            var studenti = await _userManager.GetUsersInRoleAsync("Student");
+            return View(studenti);
+        }
+
+        public async Task<ActionResult> Profesori()
+        {
+            ViewBag.predmeti = _predmeti.SviPredmeti();
+            var profesori = await _userManager.GetUsersInRoleAsync("Profesor");
+            return View(profesori);
         }
 
 

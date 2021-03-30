@@ -91,6 +91,11 @@ namespace StudentMS.Controllers
             return View(mojiispiti);
         }
 
+        public ActionResult MojiPolozeniIspiti()
+        {
+            var polozeniIspiti = _polaganja.MojiPolozeniIspiti();
+            return View(polozeniIspiti);
+        }
         public ActionResult PolaganjaKodProfesora()
         {
             var polaganja = _polaganja.PolaganjaKodProfesora();
