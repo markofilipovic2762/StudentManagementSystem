@@ -14,15 +14,8 @@ namespace StudentMS.Models
         [Required]
         public int PredmetId { get; set; }
         public Predmet Predmet { get; set; }
-        
-        public string Naziv
-        {
-            get
-            {
-                return Predmet.Naziv + " " + DatumIspita;
-            }
-            set { }
-        }
+
+        public string Naziv { get; set; }
 
     }
 }

@@ -13,14 +13,17 @@ namespace StudentMS.Controllers
     {
         private readonly IIspitRepository _ispiti;
         private readonly IPredmetRepository _predmeti;
-        public IspitController(IIspitRepository ispiti, IPredmetRepository predmeti)
+        private readonly IPolaganjeRepository _polaganje;
+        public IspitController(IIspitRepository ispiti, IPredmetRepository predmeti, IPolaganjeRepository polaganje)
         {
             _ispiti = ispiti;
             _predmeti = predmeti;
+            _polaganje = polaganje;
         }
         // GET: IspitController
         public ActionResult Index()
         {
+            ViewBag.polaganja = _polaganje.SvaPolaganja();
             return View(_ispiti.SviIspiti());
         }
 
@@ -42,7 +45,7 @@ namespace StudentMS.Controllers
         // POST: IspitController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind("Id, DatumIspita, PredmetId")] Ispit ispit)
+        public ActionResult Create([Bind("DatumIspita, PredmetId")] Ispit ispit)
         {
             var predmeti = _predmeti.SviPredmeti();
             ViewBag.PredmetId = new SelectList(predmeti, "id", "Naziv", ispit.PredmetId);
@@ -67,7 +70,7 @@ namespace StudentMS.Controllers
         }
 
         // POST: IspitController/Edit/5
-        [HttpPost,ActionName("Edit")]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
         public ActionResult EditIspit(int id, Ispit ispit)
         {

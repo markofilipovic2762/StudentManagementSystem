@@ -11,6 +11,18 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.User.Ime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User.Prezime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ispit.DatumIspita)
+            </th>
+            <th>
+                Predmet
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Ocena)
             </th>
             <th>
@@ -22,51 +34,45 @@
             <th>
                 @Html.DisplayNameFor(model => model.Polozen)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User.Ime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User.Prezime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ispit)
-            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ocena)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OsvojenoBodova)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RedniBrojPolaganja)
-            </td>
-            <td>
-                @if (item.Ocena > 5)
-                {
-                    <span>DA</span>
-                }
-                else
-                {
-                    <span>NE</span>
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Ime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Prezime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ispit.Naziv)
-            </td>
-
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Ime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Prezime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ispit.DatumIspita)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ispit.Predmet.Naziv)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ocena)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OsvojenoBodova)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RedniBrojPolaganja)
+                </td>
+                <td>
+                    @if (item.Ocena > 5)
+                    {
+                        <span>DA</span>
+                    }
+                    else
+                    {
+                        <span>NE</span>
+                    }
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

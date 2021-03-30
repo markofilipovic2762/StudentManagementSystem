@@ -31,58 +31,65 @@
                 @Html.DisplayNameFor(model => model.User.Prezime)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ispit)
+                @Html.DisplayNameFor(model => model.Ispit.DatumIspita)
+            </th>
+            <th>
+                Predmet
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ocena)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OsvojenoBodova)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RedniBrojPolaganja)
-            </td>
-            @if (item.Ocena > 5)
-            {
+        @foreach (var item in Model)
+        {
+            <tr>
                 <td>
-                    DA
+                    @Html.DisplayFor(modelItem => item.Ocena)
                 </td>
-            }
-            else
-            {
                 <td>
-                    NE
+                    @Html.DisplayFor(modelItem => item.OsvojenoBodova)
                 </td>
-            }
+                <td>
+                    @Html.DisplayFor(modelItem => item.RedniBrojPolaganja)
+                </td>
+                @if (item.Ocena > 5)
+                {
+                    <td>
+                        DA
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        NE
+                    </td>
+                }
 
-            <td>
-                @Html.DisplayFor(modelItem => item.User.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Ime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Prezime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ispit.Naziv)
-            </td>
-            @if (User.IsInRole("Administrator"))
-            {
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    @Html.DisplayFor(modelItem => item.User.UserName)
                 </td>
-            }
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Ime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Prezime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ispit.DatumIspita)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ispit.Predmet.Naziv)
+                </td>
+                @if (User.IsInRole("Administrator"))
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                }
 
-        </tr>
-}
+            </tr>
+        }
     </tbody>
 </table>

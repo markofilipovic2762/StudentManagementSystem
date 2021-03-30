@@ -44,7 +44,7 @@ namespace StudentMS.Controllers
             ViewBag.UserId = new SelectList(students, "Id", "Email");
 
             var ispiti = _ispiti.SviIspiti();
-            ViewBag.IspitId = new SelectList(ispiti, "Id", "Naziv");
+            ViewBag.IspitId = new SelectList(ispiti, "Id", "Predmet.Naziv", "DatumIspita");
 
             return View();
         }
@@ -58,7 +58,8 @@ namespace StudentMS.Controllers
             ViewBag.UserId = new SelectList(students, "Id", "Email", polaganje.UserId);
 
             var ispiti = _ispiti.SviIspiti();
-            ViewBag.IspitId = new SelectList(ispiti, "Id", "Naziv", polaganje.IspitId);
+            ViewBag.IspitId = new SelectList(ispiti, "Id", "Predmet.Naziv", polaganje.IspitId);
+            polaganje.RedniBrojPolaganja += 1;
             try
             {
                 _polaganja.SacuvajPolaganje(polaganje);
@@ -79,7 +80,7 @@ namespace StudentMS.Controllers
 
         public ActionResult IspitiStudenta(string id)
         {
-            var ispiti =_polaganja.IspitiStudenta(id);
+            var ispiti = _polaganja.IspitiStudenta(id);
 
             return View(ispiti);
         }
@@ -113,7 +114,7 @@ namespace StudentMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, [Bind("Id, Ocena, OsvojenoBodova, RedniBrojPolaganja, UserId, IspitId")] Polaganje polaganje)
         {
-            if(id == polaganje.Id)
+            if (id == polaganje.Id)
             {
                 try
                 {
@@ -121,12 +122,12 @@ namespace StudentMS.Controllers
                     return RedirectToAction(nameof(Index));
                 }
                 catch
-                    {
-                      return View();
-                    }
+                {
+                    return View();
+                }
             }
             return View();
-            
+
         }
 
         // GET: PolaganjeController/Delete/5
@@ -137,7 +138,7 @@ namespace StudentMS.Controllers
         }
 
         // POST: PolaganjeController/Delete/5
-        [HttpPost,ActionName("Delete")]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeletePolaganje(int id)
         {
